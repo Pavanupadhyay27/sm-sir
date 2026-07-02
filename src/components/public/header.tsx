@@ -116,9 +116,9 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Dropdown — simple single-column list, below the pill */}
+        {/* Dropdown — narrow, right-aligned below the pill */}
         {isOpen && (
-          <nav className="mt-2 p-3 rounded-2xl glass border border-custom-border shadow-2xl pointer-events-auto flex flex-col gap-1">
+          <nav className="mt-2 ml-auto w-48 p-2 rounded-2xl glass border border-custom-border shadow-2xl pointer-events-auto flex flex-col gap-0.5">
             {navLinks.map((link) => {
               const active = pathname === link.href;
               return (
@@ -126,7 +126,7 @@ export default function Header() {
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                  className={`px-3 py-2 rounded-xl text-xs font-medium transition-all ${
                     active
                       ? "bg-primary-emerald/15 text-primary-emerald font-semibold"
                       : "text-custom-fg/75 hover:bg-custom-fg/5 hover:text-custom-fg"
