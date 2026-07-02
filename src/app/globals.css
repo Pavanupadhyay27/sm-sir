@@ -1,0 +1,181 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-heading: var(--font-space-grotesk), sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), monospace;
+
+  --color-primary-emerald: #059669;
+  --color-primary-deep: #064e3b;
+  --color-accent-gold: #ca8a04;
+  --color-accent-gold-light: #f59e0b;
+
+  --color-custom-bg: var(--background);
+  --color-custom-fg: var(--foreground);
+  --color-custom-card: var(--card-bg);
+  --color-custom-border: var(--border-color);
+  --color-custom-muted: var(--muted);
+}
+
+/* ─── Design Tokens ─────────────────────────────────────────── */
+:root {
+  --background: #fcfcfd;
+  --foreground: #0f172a;
+  --card-bg: rgba(255, 255, 255, 0.75);
+  --border-color: rgba(15, 23, 42, 0.07);
+  --muted: #475569;
+  --glow-color: rgba(5, 150, 105, 0.08);
+  --gold-glow: rgba(202, 138, 4, 0.06);
+}
+
+html.dark {
+  --background: #06070a;
+  --foreground: #f8fafc;
+  --card-bg: rgba(13, 16, 23, 0.75);
+  --border-color: rgba(248, 250, 252, 0.055);
+  --muted: #94a3b8;
+  --glow-color: rgba(5, 150, 105, 0.15);
+  --gold-glow: rgba(202, 138, 4, 0.12);
+}
+
+/* ─── Base Resets ────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: rgba(5, 150, 105, 0.18);
+  color: inherit;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ─── Entrance Animations ────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.anim-fade-up    { animation: fadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-fade-up-d1 { animation: fadeUp 0.65s 0.10s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-fade-up-d2 { animation: fadeUp 0.65s 0.20s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-fade-up-d3 { animation: fadeUp 0.65s 0.32s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-fade-up-d4 { animation: fadeUp 0.65s 0.44s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-fade-in    { animation: fadeIn 0.8s ease both; }
+
+/* ─── Navbar ─────────────────────────────────────────────────── */
+.navbar-3d {
+  background-color: var(--card-bg);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.45);
+  border-bottom: 3.5px solid rgba(0, 0, 0, 0.18);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.25);
+  border-right: 1.5px solid rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 6px 16px rgba(0, 0, 0, 0.06),
+    0 16px 36px -4px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -1.5px 0 rgba(0, 0, 0, 0.08);
+}
+
+.dark .navbar-3d {
+  border-top: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 3.5px solid rgba(0, 0, 0, 0.6);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.05);
+  border-right: 1.5px solid rgba(0, 0, 0, 0.35);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.25),
+    0 10px 28px rgba(0, 0, 0, 0.45),
+    0 24px 54px -8px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1.5px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* ─── Glass Card ─────────────────────────────────────────────── */
+.glass {
+  background-color: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-bottom: 2.5px solid rgba(0, 0, 0, 0.12);
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+  border-right: 1.5px solid rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 4px 16px -2px rgba(0, 0, 0, 0.02),
+    0 2px 6px -1px rgba(0, 0, 0, 0.01),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark .glass {
+  border-top: 1.5px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 2.5px solid rgba(0, 0, 0, 0.45);
+  border-left: 1px solid rgba(255, 255, 255, 0.04);
+  border-right: 1.5px solid rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0 12px 32px -8px rgba(0, 0, 0, 0.45),
+    0 4px 12px -5px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+/* ─── Card Hover States ──────────────────────────────────────── */
+.glow-emerald-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glow-emerald-hover:hover {
+  transform: translateY(-4px) scale(1.01);
+  border-color: rgba(5, 150, 105, 0.35);
+  box-shadow:
+    0 20px 40px -10px rgba(5, 150, 105, 0.16),
+    inset 0 1px 0 rgba(5, 150, 105, 0.15);
+}
+.dark .glow-emerald-hover:hover {
+  border-color: rgba(5, 150, 105, 0.48);
+  box-shadow:
+    0 28px 56px -12px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(5, 150, 105, 0.25);
+}
+
+.glow-gold-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glow-gold-hover:hover {
+  transform: translateY(-4px) scale(1.01);
+  border-color: rgba(202, 138, 4, 0.35);
+  box-shadow:
+    0 20px 40px -10px rgba(202, 138, 4, 0.14),
+    inset 0 1px 0 rgba(202, 138, 4, 0.15);
+}
+.dark .glow-gold-hover:hover {
+  border-color: rgba(202, 138, 4, 0.48);
+  box-shadow:
+    0 28px 56px -12px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(202, 138, 4, 0.25);
+}
+
+/* ─── Text Glow ──────────────────────────────────────────────── */
+.text-glow {
+  text-shadow: 0 0 20px var(--glow-color);
+}
