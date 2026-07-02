@@ -75,7 +75,7 @@ export default function Header() {
       <div className="fixed top-3 left-6 right-6 z-50 hidden lg:flex justify-center pointer-events-none">
         <header
           className={`navbar-3d rounded-2xl flex items-center gap-2 pointer-events-auto w-full max-w-[1100px] transition-all duration-300 ${
-            scrolled ? "py-2 px-6" : "py-2.5 px-7"
+            scrolled ? "py-1 px-5" : "py-1.5 px-6"
           }`}
         >
           {/* Nav links — takes all space */}
@@ -119,9 +119,12 @@ export default function Header() {
 
       {/* ── Mobile top bar ──────────────────────────────────────── */}
       <div className="fixed top-3 left-4 right-4 z-50 lg:hidden">
-        <div className="navbar-3d rounded-full py-2 px-4 flex items-center justify-between pointer-events-auto">
-          <Link href="/" className="font-heading text-xs font-bold tracking-widest text-custom-fg">
-            Dr. Smruti Ranjan Das
+        <div className="navbar-3d rounded-full py-1.5 px-4 flex items-center justify-between pointer-events-auto">
+          {/* Minimal brand mark */}
+          <Link href="/" className="flex items-center gap-2 group" aria-label="Home">
+            <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-primary-emerald to-accent-gold flex items-center justify-center text-white font-heading font-bold text-[10px] shadow-sm">
+              S
+            </div>
           </Link>
           <div className="flex items-center gap-2">
             <button
