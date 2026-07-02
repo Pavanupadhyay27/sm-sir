@@ -68,43 +68,48 @@ export default function ParticleBackground() {
             Math.sin(nx * 16.0 - time * 2.4) * Math.sin(ny * 12.0 + time * 2.0) * 8  +
             Math.cos(nx * 28.0 + time * 3.2) * Math.cos(ny * 22.0 - time * 2.8) * 3;
 
-          // Mouse / touch ripple & tearing
-          const approxSx = gx + width / 2;
-          const approxSy = gy * cosP + gz * sinP + height * 0.5;
-          const mdx   = mouse.x - approxSx;
-          const mdy   = mouse.y - approxSy;
-          const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-          let finalGz = gz;
+          // Calculate base unperturbed 3D projection first (in true screen space)
+          const baseWorldY = gy * cosP - gz * sinP;
+          const baseWorldZ = gy * sinP + gz * cosP;
+          const baseCamZ   = baseWorldZ + fov;
+          const baseScale  = fov / Math.max(baseCamZ, 1);
+          
+          const screenX = gx * baseScale + width / 2;
+          const screenY = baseWorldY * baseScale + height * 0.56;
 
+          // Measure mouse distance in screen-space pixels
+          const mdx = mouse.x - screenX;
+          const mdy = mouse.y - screenY;
+          const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+
+          let finalGz = gz;
           let offsetX = 0;
           let offsetY = 0;
 
           if (mdist < mouse.radius) {
             const t = 1 - mdist / mouse.radius;
+            // Wave ripple
             finalGz += t * t * t * 52 * Math.sin(time * 7 + mdist * 0.08);
 
-            // Tearing Recoil: vertices within 75px snap and push elastically away from cursor
+            // Tearing Recoil: Vertices near cursor push outward in screen space
             const tearRadius = 75;
             if (mdist < tearRadius) {
-              const tearStrength = 1 - mdist / tearRadius; // 0 at edge, 1 at center
-              const angle = Math.atan2(approxSy - mouse.y, approxSx - mouse.x);
-              // Push vertices outward to visually rip the mesh open
-              offsetX += Math.cos(angle) * tearStrength * 35;
-              offsetY += Math.sin(angle) * tearStrength * 25;
+              const tearStrength = 1 - mdist / tearRadius;
+              const angle = Math.atan2(screenY - mouse.y, screenX - mouse.x);
+              offsetX = Math.cos(angle) * tearStrength * 35;
+              offsetY = Math.sin(angle) * tearStrength * 25;
             }
           }
 
-          // Pitch rotation around X axis
-          const worldY = gy * cosP - finalGz * sinP;
-          const worldZ = gy * sinP + finalGz * cosP;
-
-          // Perspective projection
-          const camZ  = worldZ + fov;
+          // Compute final position using final height
+          const finalWorldY = gy * cosP - finalGz * sinP;
+          const finalWorldZ = gy * sinP + finalGz * cosP;
+          const camZ = finalWorldZ + fov;
           const scale = fov / Math.max(camZ, 1);
-          vx[idx] = (gx + offsetX) * scale + width  / 2;
-          vy[idx] = (worldY + offsetY) * scale + height * 0.56;
 
-          // Smooth depth factor: 1=near, 0=far
+          vx[idx] = (gx + offsetX) * scale + width / 2;
+          vy[idx] = (finalWorldY + offsetY) * scale + height * 0.56;
+
           const rawN = 1 - (camZ - fov * 0.5) / (fov * 2.8);
           vn[idx] = Math.max(0, Math.min(1, rawN));
         }
