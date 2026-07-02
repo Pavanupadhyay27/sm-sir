@@ -26,7 +26,6 @@ export default function Header() {
   const [theme,          setTheme]          = useState<"dark" | "light">("dark");
   const pathname = usePathname();
 
-  // Active pill indicator position
   const navRef        = useRef<HTMLElement>(null);
   const activeLinkRef = useRef<HTMLAnchorElement>(null);
   const [pillStyle, setPillStyle] = useState<{ left: number; width: number } | null>(null);
@@ -47,17 +46,13 @@ export default function Header() {
     applyTheme(isDark ? "dark" : "light");
   }, []);
 
-  // Slide the active indicator pill under the active nav link
   useEffect(() => {
     const nav    = navRef.current;
     const active = activeLinkRef.current;
     if (!nav || !active) { setPillStyle(null); return; }
     const navRect    = nav.getBoundingClientRect();
     const activeRect = active.getBoundingClientRect();
-    setPillStyle({
-      left:  activeRect.left - navRect.left,
-      width: activeRect.width,
-    });
+    setPillStyle({ left: activeRect.left - navRect.left, width: activeRect.width });
   }, [pathname]);
 
   const applyTheme = (t: "dark" | "light") => {
@@ -73,42 +68,25 @@ export default function Header() {
       {/* ── Scroll progress bar ────────────────────────────────── */}
       <div
         className="fixed top-0 left-0 h-[2px] z-[60] transition-all duration-100"
-        style={{
-          width: `${scrollProgress}%`,
-          background: "linear-gradient(90deg, #059669, #10b981, #ca8a04)",
-        }}
+        style={{ width: `${scrollProgress}%`, background: "linear-gradient(90deg,#059669,#10b981,#ca8a04)" }}
       />
 
-      {/* ── Desktop floating pill navbar ─────────────────────── */}
-      <div className="fixed top-3 left-4 right-4 z-50 hidden lg:flex justify-center pointer-events-none">
+      {/* ── Desktop full-width navbar ─────────────────────────── */}
+      <div className="fixed top-3 left-6 right-6 z-50 hidden lg:flex justify-center pointer-events-none">
         <header
-          className={`navbar-3d rounded-full flex items-center gap-3 pointer-events-auto transition-all duration-300 ${
-            scrolled ? "py-1 px-4" : "py-1.5 px-5"
+          className={`navbar-3d rounded-2xl flex items-center gap-2 pointer-events-auto w-full max-w-[1100px] transition-all duration-300 ${
+            scrolled ? "py-2 px-6" : "py-2.5 px-7"
           }`}
         >
-          {/* Logo mark */}
-          <Link href="/" className="flex-shrink-0 flex items-center gap-2 mr-2 group">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary-emerald to-accent-gold flex items-center justify-center text-white font-heading font-bold text-xs shadow-md shadow-primary-emerald/20 group-hover:scale-110 transition-transform duration-200">
-              S
-            </div>
-            <span className="font-heading text-xs font-bold tracking-wider text-custom-fg/80 group-hover:text-custom-fg transition-colors hidden xl:block">
-              SRD
-            </span>
-          </Link>
-
-          {/* Divider */}
-          <div className="w-px h-4 bg-custom-border" />
-
-          {/* Nav links with sliding pill indicator */}
-          <nav ref={navRef} className="relative flex items-center space-x-0.5">
-            {/* Sliding active indicator */}
+          {/* Nav links — takes all space */}
+          <nav ref={navRef} className="relative flex items-center flex-1 gap-0.5">
+            {/* Sliding active pill */}
             {pillStyle && (
               <span
-                className="absolute top-0 bottom-0 rounded-full bg-primary-emerald/10 border border-primary-emerald/20 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none"
+                className="absolute top-0 bottom-0 rounded-xl bg-primary-emerald/10 border border-primary-emerald/20 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none"
                 style={{ left: pillStyle.left, width: pillStyle.width }}
               />
             )}
-
             {navLinks.map((link) => {
               const active = pathname === link.href;
               return (
@@ -116,7 +94,7 @@ export default function Header() {
                   key={link.name}
                   href={link.href}
                   ref={active ? activeLinkRef : undefined}
-                  className={`relative px-3 py-1.5 rounded-full text-[11px] font-medium transition-colors duration-200 ${
+                  className={`relative px-3.5 py-2 rounded-xl text-[11.5px] font-medium transition-colors duration-200 whitespace-nowrap ${
                     active
                       ? "text-primary-emerald font-semibold"
                       : "text-custom-fg/65 hover:text-custom-fg"
@@ -128,19 +106,13 @@ export default function Header() {
             })}
           </nav>
 
-          {/* Divider */}
-          <div className="w-px h-4 bg-custom-border" />
-
           {/* Theme toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-full hover:bg-custom-fg/8 text-custom-fg/60 hover:text-custom-fg transition-all duration-200 hover:scale-110"
+            className="ml-2 p-2 rounded-xl hover:bg-custom-fg/8 text-custom-fg/60 hover:text-custom-fg transition-all duration-200 hover:scale-110 flex-shrink-0"
             aria-label="Toggle theme"
           >
-            {theme === "dark"
-              ? <Sun className="w-3.5 h-3.5" />
-              : <Moon className="w-3.5 h-3.5" />
-            }
+            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
         </header>
       </div>
@@ -148,28 +120,20 @@ export default function Header() {
       {/* ── Mobile top bar ──────────────────────────────────────── */}
       <div className="fixed top-3 left-4 right-4 z-50 lg:hidden">
         <div className="navbar-3d rounded-full py-2 px-4 flex items-center justify-between pointer-events-auto">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-6 h-6 rounded-md bg-gradient-to-br from-primary-emerald to-accent-gold flex items-center justify-center text-white font-heading font-bold text-[10px] shadow-sm group-hover:scale-110 transition-transform duration-200">
-              S
-            </div>
-            <span className="font-heading text-xs font-bold tracking-widest text-custom-fg">SRD.</span>
+          <Link href="/" className="font-heading text-xs font-bold tracking-widest text-custom-fg">
+            Dr. Smruti Ranjan Das
           </Link>
-
           <div className="flex items-center gap-2">
             <button
               onClick={toggleTheme}
-              className="p-1.5 rounded-full border border-custom-border text-custom-fg/80 hover:text-custom-fg hover:bg-custom-fg/5 transition-all duration-200"
+              className="p-1.5 rounded-full border border-custom-border text-custom-fg/80 hover:text-custom-fg hover:bg-custom-fg/5 transition-all"
               aria-label="Toggle theme"
             >
-              {theme === "dark"
-                ? <Sun className="w-3.5 h-3.5" />
-                : <Moon className="w-3.5 h-3.5" />
-              }
+              {theme === "dark" ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
             </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-1.5 rounded-lg border border-custom-border text-custom-fg/80 hover:text-custom-fg hover:bg-custom-fg/5 transition-all duration-200"
+              className="p-1.5 rounded-lg border border-custom-border text-custom-fg/80 hover:text-custom-fg hover:bg-custom-fg/5 transition-all"
               aria-label="Toggle menu"
             >
               {isOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
@@ -177,12 +141,9 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Dropdown — animated slide in */}
         {isOpen && (
-          <nav className="mt-2 ml-auto w-52 p-2 rounded-2xl glass border border-custom-border shadow-2xl pointer-events-auto flex flex-col gap-0.5 anim-slide-down">
-            {/* Gradient accent top */}
+          <nav className="mt-2 ml-auto w-56 p-2 rounded-2xl glass border border-custom-border shadow-2xl pointer-events-auto flex flex-col gap-0.5 anim-slide-down relative">
             <div className="absolute top-0 inset-x-0 h-px rounded-t-2xl bg-gradient-to-r from-transparent via-primary-emerald/40 to-transparent" />
-
             {navLinks.map((link) => {
               const active = pathname === link.href;
               return (

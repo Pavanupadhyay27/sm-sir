@@ -2,14 +2,15 @@
 
 import { Award, Trophy, Star, ShieldCheck, Heart } from "lucide-react";
 import { professorData } from "@/data/professor-data";
+import TiltCard from "@/components/public/tilt-card";
 
 export default function Awards() {
   const p = professorData;
 
   const categoryIcons: Record<string, React.ReactNode> = {
-    National: <Trophy className="w-6 h-6 text-accent-gold" />,
-    State: <Award className="w-6 h-6 text-primary-emerald" />,
-    University: <Star className="w-6 h-6 text-blue-400" />
+    National:   <Trophy className="w-6 h-6 text-accent-gold" />,
+    State:      <Award  className="w-6 h-6 text-primary-emerald" />,
+    University: <Star   className="w-6 h-6 text-blue-400" />,
   };
 
   return (
@@ -17,10 +18,10 @@ export default function Awards() {
       {/* Page Header */}
       <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
         <span className="text-xs font-bold uppercase tracking-widest text-primary-emerald font-heading">
-          Honors & Recognition
+          Honors &amp; Recognition
         </span>
         <h1 className="font-heading text-4xl sm:text-5xl font-extrabold text-custom-fg tracking-tight">
-          Awards & Medals
+          Awards &amp; Medals
         </h1>
         <p className="text-sm text-custom-muted leading-relaxed">
           Celebrating contributions to national translation tasks, community mobilization, and student leadership development.
@@ -30,15 +31,18 @@ export default function Awards() {
       {/* Grid of Honors */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
         {p.awards.map((aw) => (
-          <div
+          <TiltCard
             key={aw.id}
-            className="glass p-8 rounded-3xl border border-custom-border hover:border-primary-emerald/30 glow-emerald-hover transition-all duration-300 relative overflow-hidden flex flex-col justify-between"
+            intensity={8}
+            className="glass p-8 rounded-3xl glow-emerald-hover shimmer-border flex flex-col justify-between"
           >
-            {/* Absolute blur background layer */}
+            {/* Top accent */}
+            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary-emerald/35 to-transparent rounded-t-3xl" />
+            {/* Background blur layer */}
             <div className="absolute -top-10 -left-10 w-24 h-24 bg-gradient-to-tr from-primary-emerald/10 to-transparent blur-2xl pointer-events-none" />
 
             <div className="space-y-6">
-              {/* Header: Icon, Category Badge & Year */}
+              {/* Header */}
               <div className="flex justify-between items-start">
                 <div className="w-12 h-12 rounded-2xl bg-custom-fg/5 flex items-center justify-center border border-custom-border shadow-inner">
                   {categoryIcons[aw.category] || <Trophy className="w-6 h-6 text-accent-gold" />}
@@ -53,23 +57,14 @@ export default function Awards() {
                 </div>
               </div>
 
-              {/* Title & Organization */}
               <div className="space-y-1">
-                <h3 className="font-heading text-base font-bold text-custom-fg leading-snug">
-                  {aw.title}
-                </h3>
-                <p className="text-xs text-accent-gold font-semibold">
-                  {aw.organization}
-                </p>
+                <h3 className="font-heading text-base font-bold text-custom-fg leading-snug">{aw.title}</h3>
+                <p className="text-xs text-accent-gold font-semibold">{aw.organization}</p>
               </div>
 
-              {/* Description */}
-              <p className="text-xs text-custom-muted leading-relaxed">
-                {aw.description}
-              </p>
+              <p className="text-xs text-custom-muted leading-relaxed">{aw.description}</p>
             </div>
 
-            {/* Bottom details block */}
             <div className="pt-6 mt-6 border-t border-custom-border/50 flex items-center justify-between text-[10px] font-mono text-custom-muted">
               <span>RECOGNITION STATUS</span>
               <span className="flex items-center space-x-1.5 text-primary-emerald font-bold">
@@ -77,12 +72,13 @@ export default function Awards() {
                 <span>OFFICIALLY CONFERRED</span>
               </span>
             </div>
-          </div>
+          </TiltCard>
         ))}
       </div>
 
-      {/* Academic Integrity / Values Box */}
-      <div className="glass p-8 rounded-3xl max-w-4xl mx-auto border border-custom-border relative overflow-hidden">
+      {/* Philosophy box */}
+      <TiltCard intensity={5} className="glass p-8 rounded-3xl max-w-4xl mx-auto border border-custom-border shimmer-border">
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-accent-gold/35 to-transparent rounded-t-3xl" />
         <div className="absolute top-0 right-0 w-32 h-32 bg-accent-gold/5 rounded-bl-full pointer-events-none" />
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
           <div className="w-14 h-14 rounded-2xl bg-accent-gold/10 border border-accent-gold/25 flex items-center justify-center text-accent-gold shrink-0">
@@ -98,7 +94,7 @@ export default function Awards() {
             </span>
           </div>
         </div>
-      </div>
+      </TiltCard>
     </div>
   );
 }

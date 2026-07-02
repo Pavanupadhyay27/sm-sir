@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { Search, Filter, BookOpen, Clock, ExternalLink } from "lucide-react";
 import { professorData } from "@/data/professor-data";
+import TiltCard from "@/components/public/tilt-card";
 
 export default function Publications() {
   const p = professorData;
@@ -64,7 +65,7 @@ export default function Publications() {
       </div>
 
       {/* Control Panel: Search & Sort */}
-      <div className="glass p-6 rounded-3xl mb-8 space-y-6">
+      <div className="glass p-6 rounded-3xl mb-8 space-y-6 shimmer-border">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
           {/* Search bar */}
           <div className="md:col-span-7 relative">
@@ -119,15 +120,15 @@ export default function Publications() {
       <div className="space-y-4">
         {filteredAndSortedPublications.length > 0 ? (
           filteredAndSortedPublications.map((pub) => (
-            <div
+            <TiltCard
               key={pub.id}
-              className="glass p-6 sm:p-8 rounded-2xl border border-custom-border hover:border-primary-emerald/20 transition-all duration-300 relative group overflow-hidden"
+              intensity={5}
+              className="glass p-6 sm:p-8 rounded-2xl glow-emerald-hover shimmer-border"
             >
-              <div className="absolute top-0 left-0 w-[4px] h-full bg-gradient-to-b from-primary-emerald to-accent-gold opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary-emerald/25 to-transparent rounded-t-2xl" />
 
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div className="space-y-2 max-w-4xl">
-                  {/* Meta Badges */}
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-[9px] font-mono font-bold tracking-wider text-primary-emerald bg-primary-emerald/10 px-2 py-0.5 rounded border border-primary-emerald/25 uppercase">
                       {pub.type}
@@ -143,40 +144,32 @@ export default function Publications() {
                     )}
                   </div>
 
-                  {/* Title */}
                   <h3 className="font-heading text-sm sm:text-base font-bold text-custom-fg group-hover:text-primary-emerald transition-colors leading-snug">
                     {pub.title}
                   </h3>
 
-                  {/* Authors & Journal */}
                   <p className="text-xs text-custom-muted leading-relaxed">
                     <span className="font-semibold text-custom-fg/90">{pub.authors}</span>
                     <span className="mx-1.5">•</span>
                     <span className="italic">{pub.journalOrBook}</span>
                   </p>
 
-                  {/* Publisher */}
                   <p className="text-[10px] text-custom-muted font-mono leading-none">
                     PUBLISHER: {pub.publisher}
                   </p>
                 </div>
 
-                {/* Right side widgets: Citations, External Link */}
                 <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-4 shrink-0 sm:pt-1">
                   <div className="text-left sm:text-right">
-                    <span className="text-[9px] font-mono text-custom-muted block uppercase leading-none mb-1">
-                      Citations
-                    </span>
+                    <span className="text-[9px] font-mono text-custom-muted block uppercase leading-none mb-1">Citations</span>
                     <span className="text-xs font-bold font-mono text-custom-fg bg-custom-fg/5 px-2.5 py-1 rounded border border-custom-border">
                       {pub.citations}
                     </span>
                   </div>
-
                   {(pub.link || pub.doi) && (
                     <a
                       href={pub.link || `https://doi.org/${pub.doi}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      target="_blank" rel="noopener noreferrer"
                       className="inline-flex items-center space-x-1.5 text-[10px] font-bold text-primary-emerald hover:text-primary-emerald/80 transition-colors bg-primary-emerald/10 border border-primary-emerald/20 px-3 py-1.5 rounded-full"
                     >
                       <span>Explore Publisher</span>
@@ -185,16 +178,16 @@ export default function Publications() {
                   )}
                 </div>
               </div>
-            </div>
+            </TiltCard>
           ))
         ) : (
-          <div className="text-center py-20 glass rounded-3xl">
+          <TiltCard intensity={4} className="text-center py-20 glass rounded-3xl shimmer-border">
             <BookOpen className="w-12 h-12 text-custom-muted mx-auto mb-4" />
             <h3 className="text-sm font-bold text-custom-fg">No Publications Found</h3>
             <p className="text-xs text-custom-muted mt-1">
               Adjust your search keywords or select a different filter category.
             </p>
-          </div>
+          </TiltCard>
         )}
       </div>
     </div>

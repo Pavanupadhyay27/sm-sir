@@ -2,6 +2,7 @@
 
 import { Layers, TrendingUp, BarChart2 } from "lucide-react";
 import { professorData } from "@/data/professor-data";
+import TiltCard from "@/components/public/tilt-card";
 
 export default function ResearchLab() {
   const p = professorData.researchLab;
@@ -24,8 +25,9 @@ export default function ResearchLab() {
 
       {/* Analytics Dashboard Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-        <div className="glass p-8 rounded-3xl flex flex-col justify-between border border-custom-border relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary-emerald/5 to-transparent pointer-events-none" />
+        <TiltCard intensity={9} className="glass p-8 rounded-3xl flex flex-col justify-between shimmer-border glow-emerald-hover">
+          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary-emerald/35 to-transparent rounded-t-3xl" />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-emerald/5 to-transparent pointer-events-none rounded-3xl" />
           <div className="flex items-center justify-between mb-6">
             <span className="text-xs font-mono text-custom-muted uppercase tracking-wider">Research Index</span>
             <TrendingUp className="w-5 h-5 text-primary-emerald" />
@@ -34,10 +36,11 @@ export default function ResearchLab() {
             <span className="text-5xl font-mono font-bold text-custom-fg block mb-2">{p.impact.totalCitations}</span>
             <span className="text-xs text-custom-muted">Total Google Scholar Citations</span>
           </div>
-        </div>
+        </TiltCard>
 
-        <div className="glass p-8 rounded-3xl flex flex-col justify-between border border-custom-border relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-br from-accent-gold/5 to-transparent pointer-events-none" />
+        <TiltCard intensity={9} className="glass p-8 rounded-3xl flex flex-col justify-between shimmer-border glow-gold-hover">
+          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-accent-gold/35 to-transparent rounded-t-3xl" />
+          <div className="absolute inset-0 bg-gradient-to-br from-accent-gold/5 to-transparent pointer-events-none rounded-3xl" />
           <div className="flex items-center justify-between mb-6">
             <span className="text-xs font-mono text-custom-muted uppercase tracking-wider">Metrics Depth</span>
             <BarChart2 className="w-5 h-5 text-accent-gold" />
@@ -46,10 +49,11 @@ export default function ResearchLab() {
             <span className="text-5xl font-mono font-bold text-custom-fg block mb-2">{p.impact.hIndex}</span>
             <span className="text-xs text-custom-muted">h-index (Citations Benchmark)</span>
           </div>
-        </div>
+        </TiltCard>
 
-        <div className="glass p-8 rounded-3xl flex flex-col justify-between border border-custom-border relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none" />
+        <TiltCard intensity={9} className="glass p-8 rounded-3xl flex flex-col justify-between shimmer-border">
+          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue-400/30 to-transparent rounded-t-3xl" />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none rounded-3xl" />
           <div className="flex items-center justify-between mb-6">
             <span className="text-xs font-mono text-custom-muted uppercase tracking-wider">Broad Influence</span>
             <Layers className="w-5 h-5 text-blue-400" />
@@ -58,13 +62,13 @@ export default function ResearchLab() {
             <span className="text-5xl font-mono font-bold text-custom-fg block mb-2">{p.impact.i10Index}</span>
             <span className="text-xs text-custom-muted">i10-index (Papers with &gt;10 citations)</span>
           </div>
-        </div>
+        </TiltCard>
       </div>
 
       {/* Domain mapping and visualizer */}
       <div className="mb-20">
         {/* Full-Width Citation Growth Chart */}
-        <div className="glass p-8 sm:p-10 rounded-3xl border border-custom-border relative overflow-hidden group">
+        <TiltCard intensity={4} className="glass p-8 sm:p-10 rounded-3xl shimmer-border glow-emerald-hover">
           <div className="absolute inset-0 bg-gradient-to-br from-primary-emerald/5 to-transparent pointer-events-none" />
           
           <div className="max-w-3xl mb-10 space-y-2">
@@ -140,7 +144,7 @@ export default function ResearchLab() {
               </div>
             </div>
           </div>
-        </div>
+        </TiltCard>
       </div>
 
       {/* Expanded research detail list */}
@@ -151,32 +155,26 @@ export default function ResearchLab() {
         
         <div className="grid grid-cols-1 gap-6">
           {p.domains.map((d) => (
-            <div
+            <TiltCard
               key={d.id}
-              className="glass p-8 rounded-3xl border border-custom-border hover:border-primary-emerald/20 transition-all duration-300 relative group overflow-hidden"
+              intensity={6}
+              className="glass p-8 rounded-3xl glow-emerald-hover shimmer-border"
             >
-              <div className="absolute top-0 left-0 w-[4px] h-full bg-primary-emerald opacity-0 group-hover:opacity-100 transition-opacity" />
-
+              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary-emerald/28 to-transparent rounded-t-3xl" />
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
                 <div className="md:col-span-8 space-y-3">
                   <h4 className="font-heading text-base font-bold text-custom-fg group-hover:text-primary-emerald transition-colors">
                     {d.title}
                   </h4>
-                  <p className="text-xs text-custom-muted leading-relaxed">
-                    {d.description}
-                  </p>
+                  <p className="text-xs text-custom-muted leading-relaxed">{d.description}</p>
                   <div className="flex flex-wrap gap-2">
                     {d.keywords.map((kw, i) => (
-                      <span
-                        key={i}
-                        className="px-2.5 py-1 rounded-md text-[9px] font-mono bg-custom-fg/5 text-custom-muted border border-custom-border"
-                      >
+                      <span key={i} className="px-2.5 py-1 rounded-md text-[9px] font-mono bg-custom-fg/5 text-custom-muted border border-custom-border">
                         {kw}
                       </span>
                     ))}
                   </div>
                 </div>
-
                 <div className="md:col-span-4 grid grid-cols-2 gap-4 border-l border-custom-border/50 pl-6 shrink-0">
                   <div>
                     <span className="text-[9px] font-mono text-custom-muted block uppercase">Papers</span>
@@ -188,7 +186,7 @@ export default function ResearchLab() {
                   </div>
                 </div>
               </div>
-            </div>
+            </TiltCard>
           ))}
         </div>
       </div>

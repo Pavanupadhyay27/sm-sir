@@ -1,6 +1,7 @@
 "use client";
 
 import { Calendar, Clock, ArrowRight } from "lucide-react";
+import TiltCard from "@/components/public/tilt-card";
 
 interface BlogPost {
   id: string;
@@ -61,15 +62,15 @@ export default function Blog() {
       {/* Blog Cards Stack */}
       <div className="space-y-8 max-w-4xl mx-auto">
         {blogPosts.map((post) => (
-          <article
+          <TiltCard
             key={post.id}
-            className="glass p-8 rounded-3xl border border-custom-border hover:border-primary-emerald/25 transition-all duration-300 relative group overflow-hidden"
+            intensity={6}
+            className="glass p-8 rounded-3xl glow-emerald-hover shimmer-border"
           >
-            {/* Corner visual decoration */}
+            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary-emerald/30 to-transparent rounded-t-3xl" />
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary-emerald/5 rounded-bl-full pointer-events-none" />
 
             <div className="space-y-4">
-              {/* Metadata */}
               <div className="flex flex-wrap items-center gap-3 text-[10px] font-mono text-custom-muted">
                 <span className="text-primary-emerald font-bold bg-primary-emerald/10 border border-primary-emerald/20 px-2.5 py-0.5 rounded uppercase">
                   {post.category}
@@ -85,37 +86,29 @@ export default function Blog() {
                 </span>
               </div>
 
-              {/* Title */}
               <h2 className="font-heading text-lg sm:text-xl font-bold text-custom-fg group-hover:text-primary-emerald transition-colors leading-snug">
                 {post.title}
               </h2>
 
-              {/* Excerpt */}
               <p className="text-xs sm:text-sm text-custom-muted leading-relaxed">
                 {post.excerpt}
               </p>
 
-              {/* Tags & Action Button */}
               <div className="pt-6 border-t border-custom-border/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div className="flex flex-wrap gap-2">
                   {post.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2.5 py-1 rounded-md text-[9px] font-mono bg-custom-fg/5 text-custom-muted border border-custom-border"
-                    >
+                    <span key={tag} className="px-2.5 py-1 rounded-md text-[9px] font-mono bg-custom-fg/5 text-custom-muted border border-custom-border">
                       {tag}
                     </span>
                   ))}
                 </div>
-                
-                {/* Simulated MDX Full read link */}
-                <div className="inline-flex items-center space-x-1.5 text-xs font-bold text-primary-emerald group-hover:text-primary-emerald/80 cursor-pointer transition-colors pt-1">
+                <div className="inline-flex items-center space-x-1.5 text-xs font-bold text-primary-emerald cursor-pointer hover:text-primary-emerald/80 transition-colors pt-1">
                   <span>Read Article</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
             </div>
-          </article>
+          </TiltCard>
         ))}
       </div>
     </div>

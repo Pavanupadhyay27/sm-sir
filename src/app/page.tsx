@@ -27,53 +27,56 @@ export default function Home() {
 
             {/* Portrait Card with 3D tilt */}
             <div className="lg:col-span-5 flex justify-center order-2 lg:order-1 anim-fade-in">
-              <TiltCard
-                intensity={12}
-                wrapperClassName="relative w-80 h-[412px] sm:w-[380px] sm:h-[490px]"
-                className="w-full h-full rounded-2xl"
-              >
-                {/* Ambient glow blob */}
-                <div className="absolute -inset-8 opacity-60 dark:opacity-35 blur-3xl pointer-events-none select-none z-0 transition-transform duration-700">
-                  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-                    <path fill="url(#hero-grad)" d="M41.7,-67.2C54.4,-60.7,65.3,-49.6,73.1,-36.1C80.8,-22.6,85.5,-6.6,83.9,8.7C82.3,24.1,74.5,38.8,64.2,50.7C53.9,62.6,41.2,71.7,26.8,76.9C12.4,82.1,-3.7,83.4,-19,79.8C-34.3,76.2,-48.9,67.6,-59.6,55.5C-70.3,43.3,-77.2,27.6,-80.1,10.9C-83,-5.9,-82,-23.7,-74.6,-38.1C-67.2,-52.4,-53.4,-63.3,-38.7,-68.8C-24,-74.2,-8.4,-74.3,4.9,-71.4C18.2,-68.4,31.7,-72.4,41.7,-67.2Z" transform="translate(100 100)" />
-                    <defs>
-                      <linearGradient id="hero-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#059669" />
-                        <stop offset="50%" stopColor="#10b981" />
-                        <stop offset="100%" stopColor="#d97706" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                </div>
-
-                {/* Glass image frame */}
-                <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl glass border-0 z-10 shimmer-border">
-                  <Image
-                    src="https://faculty.kiit.ac.in/wp-content/uploads/2024/08/Economics_smrutiranjan-400x515.webp"
-                    alt="Dr. Smruti Ranjan Das"
-                    fill
-                    priority
-                    className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                  />
-                  {/* Inner top sheen */}
-                  <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/20 to-transparent z-10 pointer-events-none" />
-                  {/* Status badge */}
-                  <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-black/55 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 z-20">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-[9px] font-mono text-white uppercase tracking-widest">Active Research</span>
+              {/* Outer wrapper — fixed dimensions, extra padding for chips */}
+              <div className="relative w-80 sm:w-[380px] px-8">
+                <TiltCard
+                  intensity={12}
+                  wrapperClassName="w-full"
+                  className="w-full rounded-2xl overflow-visible"
+                >
+                  {/* Ambient glow blob */}
+                  <div className="absolute -inset-10 opacity-60 dark:opacity-35 blur-3xl pointer-events-none select-none z-0">
+                    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                      <path fill="url(#hero-grad)" d="M41.7,-67.2C54.4,-60.7,65.3,-49.6,73.1,-36.1C80.8,-22.6,85.5,-6.6,83.9,8.7C82.3,24.1,74.5,38.8,64.2,50.7C53.9,62.6,41.2,71.7,26.8,76.9C12.4,82.1,-3.7,83.4,-19,79.8C-34.3,76.2,-48.9,67.6,-59.6,55.5C-70.3,43.3,-77.2,27.6,-80.1,10.9C-83,-5.9,-82,-23.7,-74.6,-38.1C-67.2,-52.4,-53.4,-63.3,-38.7,-68.8C-24,-74.2,-8.4,-74.3,4.9,-71.4C18.2,-68.4,31.7,-72.4,41.7,-67.2Z" transform="translate(100 100)" />
+                      <defs>
+                        <linearGradient id="hero-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#059669" />
+                          <stop offset="50%" stopColor="#10b981" />
+                          <stop offset="100%" stopColor="#d97706" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
                   </div>
-                </div>
 
-                {/* Floating metric chips */}
-                <div className="absolute -right-6 top-16 z-20 glass px-3 py-2 rounded-xl shadow-xl border border-custom-border/60 shimmer-border metric-chip hidden sm:block">
-                  <span className="block text-[10px] font-mono text-custom-muted uppercase tracking-wider">H-Index</span>
-                  <span className="block text-xl font-bold font-mono text-primary-emerald leading-none">4</span>
-                </div>
-                <div className="absolute -left-6 bottom-20 z-20 glass px-3 py-2 rounded-xl shadow-xl border border-custom-border/60 shimmer-border metric-chip-alt hidden sm:block">
-                  <span className="block text-[10px] font-mono text-custom-muted uppercase tracking-wider">Citations</span>
-                  <span className="block text-xl font-bold font-mono text-accent-gold leading-none">63+</span>
-                </div>
-              </TiltCard>
+                  {/* Glass image frame — natural aspect-ratio */}
+                  <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl glass shimmer-border" style={{ aspectRatio: "400/515" }}>
+                    <Image
+                      src="https://faculty.kiit.ac.in/wp-content/uploads/2024/08/Economics_smrutiranjan-400x515.webp"
+                      alt="Dr. Smruti Ranjan Das"
+                      fill
+                      priority
+                      className="object-cover object-top"
+                    />
+                    {/* Inner top sheen */}
+                    <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/25 to-transparent z-10 pointer-events-none" />
+                    {/* Status badge */}
+                    <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-black/55 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 z-20">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <span className="text-[9px] font-mono text-white uppercase tracking-widest">Active Research</span>
+                    </div>
+                  </div>
+
+                  {/* Floating metric chips — positioned outside image, relative to TiltCard */}
+                  <div className="absolute -right-2 top-12 z-20 glass px-3 py-2 rounded-xl shadow-xl border border-custom-border/60 shimmer-border metric-chip">
+                    <span className="block text-[10px] font-mono text-custom-muted uppercase tracking-wider">H-Index</span>
+                    <span className="block text-xl font-bold font-mono text-primary-emerald leading-none">4</span>
+                  </div>
+                  <div className="absolute -left-2 bottom-16 z-20 glass px-3 py-2 rounded-xl shadow-xl border border-custom-border/60 shimmer-border metric-chip-alt">
+                    <span className="block text-[10px] font-mono text-custom-muted uppercase tracking-wider">Citations</span>
+                    <span className="block text-xl font-bold font-mono text-accent-gold leading-none">63+</span>
+                  </div>
+                </TiltCard>
+              </div>
             </div>
 
             {/* Hero Text */}
