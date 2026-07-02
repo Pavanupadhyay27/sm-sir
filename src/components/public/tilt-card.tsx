@@ -94,15 +94,8 @@ export default function TiltCard({
   }
 
   return (
-    <div
-      className={`card-3d-wrapper ${wrapperClassName}`}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <div className={`card-3d-wrapper ${wrapperClassName}`}>
       <div ref={cardRef} className={`card-3d ${className}`} style={{ position: "relative" }}>
-        {/* Specular / glare overlay */}
-        <div ref={specRef} className="card-specular" aria-hidden="true" />
         {children}
       </div>
     </div>
