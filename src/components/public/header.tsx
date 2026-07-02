@@ -65,7 +65,7 @@ export default function Header() {
       />
 
       {/* Floating navbar */}
-      <div className="fixed top-3 left-4 right-4 z-50 flex justify-center pointer-events-none">
+      <div className="fixed top-3 left-4 right-4 z-50 flex flex-col items-center pointer-events-none">
         <header
           className={`navbar-3d rounded-full flex items-center justify-between lg:justify-center lg:space-x-8 pointer-events-auto w-full lg:w-auto transition-all duration-300 ${
             scrolled ? "py-1 px-4 sm:px-5" : "py-1.5 px-4 sm:px-6"
