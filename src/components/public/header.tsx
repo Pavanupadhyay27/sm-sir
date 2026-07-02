@@ -65,11 +65,6 @@ export default function Header() {
 
   return (
     <>
-      {/* ── Scroll progress bar ────────────────────────────────── */}
-      <div
-        className="fixed top-0 left-0 h-[2px] z-[60] transition-all duration-100"
-        style={{ width: `${scrollProgress}%`, background: "linear-gradient(90deg,#059669,#10b981,#ca8a04)" }}
-      />
 
       {/* ── Desktop full-width navbar ─────────────────────────── */}
       <div className="fixed top-3 left-4 right-4 z-50 hidden lg:flex justify-center pointer-events-none">

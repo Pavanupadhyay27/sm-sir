@@ -25,37 +25,31 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
 
-            {/* Portrait Card with 3D tilt */}
+            {/* Portrait Card */}
             <div className="lg:col-span-5 flex justify-center order-2 lg:order-1 anim-fade-in">
               <div className="relative w-80 sm:w-[380px] group">
-                <TiltCard
-                  intensity={12}
-                  wrapperClassName="w-full"
-                  className="w-full rounded-2xl overflow-visible"
+                {/* Image — glow border applied directly via box-shadow on hover */}
+                <div
+                  className="relative w-full rounded-2xl overflow-hidden z-[2] transition-all duration-500
+                    shadow-[0_8px_32px_rgba(0,0,0,0.3)]
+                    group-hover:shadow-[0_0_0_3px_#059669,0_0_28px_rgba(5,150,105,0.6),0_0_60px_rgba(5,150,105,0.28),0_0_90px_rgba(202,138,4,0.14)]"
+                  style={{ aspectRatio: "400/515" }}
                 >
-                  {/* Image — glow border applied directly via box-shadow on hover */}
-                  <div
-                    className="relative w-full rounded-2xl overflow-hidden z-[2] transition-all duration-500
-                      shadow-[0_8px_32px_rgba(0,0,0,0.3)]
-                      group-hover:shadow-[0_0_0_3px_#059669,0_0_28px_rgba(5,150,105,0.6),0_0_60px_rgba(5,150,105,0.28),0_0_90px_rgba(202,138,4,0.14)]"
-                    style={{ aspectRatio: "400/515" }}
-                  >
-                    <Image
-                      src="https://faculty.kiit.ac.in/wp-content/uploads/2024/08/Economics_smrutiranjan-400x515.webp"
-                      alt="Dr. Smruti Ranjan Das"
-                      fill
-                      priority
-                      className="object-cover object-top"
-                    />
-                    {/* Inner top sheen */}
-                    <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/25 to-transparent z-10 pointer-events-none" />
-                    {/* Status badge */}
-                    <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-black/55 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 z-20">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      <span className="text-[9px] font-mono text-white uppercase tracking-widest">Active Research</span>
-                    </div>
+                  <Image
+                    src="https://faculty.kiit.ac.in/wp-content/uploads/2024/08/Economics_smrutiranjan-400x515.webp"
+                    alt="Dr. Smruti Ranjan Das"
+                    fill
+                    priority
+                    className="object-cover object-top"
+                  />
+                  {/* Inner top sheen */}
+                  <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/25 to-transparent z-10 pointer-events-none" />
+                  {/* Status badge */}
+                  <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-black/55 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 z-20">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-[9px] font-mono text-white uppercase tracking-widest">Active Research</span>
                   </div>
-                </TiltCard>
+                </div>
               </div>
             </div>
 
