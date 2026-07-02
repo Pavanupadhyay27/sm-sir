@@ -80,14 +80,6 @@ html.dark body {
   color: inherit;
 }
 
-/* ─── Scrollbar ──────────────────────────────────────────────── */
-::-webkit-scrollbar       { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: var(--background); }
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #059669, #ca8a04);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover { background: #059669; }
 
 /* ─── Keyframes ─────────────────────────────────────────────── */
 @keyframes fadeUp {

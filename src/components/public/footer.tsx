@@ -37,11 +37,11 @@ export default function Footer() {
       <div className="absolute bottom-0 left-0 w-96 h-64 bg-primary-emerald/4 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute top-0 right-0 w-72 h-48 bg-accent-gold/3 rounded-full blur-[80px] pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
 
           {/* ── Brand ──────────────────────────────────────────── */}
-          <div className="md:col-span-5 space-y-6">
+          <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-emerald to-accent-gold flex items-center justify-center text-white font-heading font-bold text-base shadow-lg shadow-primary-emerald/20">
                 S
@@ -62,7 +62,7 @@ export default function Footer() {
             </p>
 
             {/* Contact row */}
-            <div className="space-y-2.5 text-xs text-custom-muted">
+            <div className="space-y-2 text-xs text-custom-muted">
               <div className="flex items-start gap-2.5">
                 <div className="w-6 h-6 rounded-lg bg-primary-emerald/10 border border-primary-emerald/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <MapPin className="w-3 h-3 text-primary-emerald" />
@@ -104,11 +104,11 @@ export default function Footer() {
           {/* ── Nav columns ────────────────────────────────────── */}
           {navCols.map((col) => (
             <div key={col.label} className="md:col-span-3 md:col-start-auto">
-              <p className="text-[10px] font-mono font-bold uppercase tracking-[0.20em] text-custom-muted/70 mb-5 flex items-center gap-2">
+              <p className="text-[10px] font-mono font-bold uppercase tracking-[0.20em] text-custom-muted/70 mb-4 flex items-center gap-2">
                 <span className="w-4 h-px bg-gradient-to-r from-primary-emerald/60 to-transparent" />
                 {col.label}
               </p>
-              <ul className="space-y-3">
+              <ul className="space-y-2">
                 {col.links.map(({ name, href, icon: Icon }) => (
                   <li key={name}>
                     <Link
@@ -129,7 +129,7 @@ export default function Footer() {
         </div>
 
         {/* ── Bottom bar ─────────────────────────────────────────── */}
-        <div className="mt-14 pt-6 border-t border-custom-border/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] text-custom-muted font-mono">
+        <div className="mt-8 pt-4 border-t border-custom-border/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] text-custom-muted font-mono">
           <span className="opacity-70">
             © {new Date().getFullYear()} Dr. Smruti Ranjan Das. All rights reserved.
           </span>
