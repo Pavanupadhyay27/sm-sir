@@ -20,13 +20,12 @@ const navLinks = [
 ];
 
 export default function Header() {
-  const [isOpen,          setIsOpen]          = useState(false);
-  const [scrollProgress,  setScrollProgress]  = useState(0);
-  const [scrolled,        setScrolled]        = useState(false);
-  const [theme,           setTheme]           = useState<"dark" | "light">("dark");
+  const [isOpen,         setIsOpen]         = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [scrolled,       setScrolled]       = useState(false);
+  const [theme,          setTheme]          = useState<"dark" | "light">("dark");
   const pathname = usePathname();
 
-  // Scroll: progress bar + docked shrink state
   useEffect(() => {
     const onScroll = () => {
       const total = document.documentElement.scrollHeight - window.innerHeight;
@@ -37,7 +36,6 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Theme: read from localStorage or existing class on mount
   useEffect(() => {
     const saved = localStorage.getItem("theme") as "dark" | "light" | null;
     const isDark = saved ? saved === "dark" : document.documentElement.classList.contains("dark");
@@ -46,11 +44,7 @@ export default function Header() {
 
   const applyTheme = (t: "dark" | "light") => {
     setTheme(t);
-    if (t === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    document.documentElement.classList.toggle("dark", t === "dark");
     localStorage.setItem("theme", t);
   };
 
@@ -60,24 +54,18 @@ export default function Header() {
     <>
       {/* Scroll progress bar */}
       <div
-        className="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-primary-emerald to-accent-gold z-[60] transition-all duration-100 ease-out"
+        className="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-primary-emerald to-accent-gold z-[60] transition-all duration-100"
         style={{ width: `${scrollProgress}%` }}
       />
 
-      {/* Floating navbar */}
-      <div className="fixed top-3 left-4 right-4 z-50 flex flex-col items-center pointer-events-none">
+      {/* ── Desktop floating pill navbar ───────────────────────── */}
+      <div className="fixed top-3 left-4 right-4 z-50 hidden lg:flex justify-center pointer-events-none">
         <header
-          className={`navbar-3d rounded-full flex items-center justify-between lg:justify-center lg:space-x-8 pointer-events-auto w-full lg:w-auto transition-all duration-300 ${
-            scrolled ? "py-1 px-4 sm:px-5" : "py-1.5 px-4 sm:px-6"
+          className={`navbar-3d rounded-full flex items-center justify-center space-x-8 pointer-events-auto transition-all duration-300 ${
+            scrolled ? "py-1 px-5" : "py-1.5 px-6"
           }`}
         >
-          {/* Mobile label */}
-          <span className="lg:hidden font-heading text-xs font-bold tracking-widest text-custom-fg">
-            SRD.
-          </span>
-
-          {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center space-x-1">
+          <nav className="flex items-center space-x-1">
             {navLinks.map((link) => {
               const active = pathname === link.href;
               return (
@@ -95,30 +83,28 @@ export default function Header() {
               );
             })}
           </nav>
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full hover:bg-custom-fg/5 text-custom-fg/70 hover:text-custom-fg transition-colors"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+          </button>
+        </header>
+      </div>
 
-          {/* Theme toggle — desktop */}
-          <div className="hidden lg:flex items-center ml-2">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-full hover:bg-custom-fg/5 text-custom-fg/70 hover:text-custom-fg transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === "dark"
-                ? <Sun  className="w-3.5 h-3.5" />
-                : <Moon className="w-3.5 h-3.5" />}
-            </button>
-          </div>
-
-          {/* Mobile controls */}
-          <div className="flex lg:hidden items-center gap-2">
+      {/* ── Mobile top bar ─────────────────────────────────────── */}
+      <div className="fixed top-3 left-4 right-4 z-50 lg:hidden">
+        {/* The pill bar: label + theme + hamburger */}
+        <div className="navbar-3d rounded-full py-2 px-4 flex items-center justify-between pointer-events-auto">
+          <span className="font-heading text-xs font-bold tracking-widest text-custom-fg">SRD.</span>
+          <div className="flex items-center gap-2">
             <button
               onClick={toggleTheme}
               className="p-1.5 rounded-full border border-custom-border text-custom-fg/80 hover:text-custom-fg transition-colors"
               aria-label="Toggle theme"
             >
-              {theme === "dark"
-                ? <Sun  className="w-3.5 h-3.5" />
-                : <Moon className="w-3.5 h-3.5" />}
+              {theme === "dark" ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
             </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -128,31 +114,29 @@ export default function Header() {
               {isOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
           </div>
-        </header>
+        </div>
 
-        {/* Mobile dropdown — compact 2-col grid */}
+        {/* Dropdown — simple single-column list, below the pill */}
         {isOpen && (
-          <div className="lg:hidden w-full mt-2 pointer-events-auto">
-            <nav className="grid grid-cols-2 gap-1 p-3 rounded-2xl glass border border-custom-border shadow-2xl">
-              {navLinks.map((link) => {
-                const active = pathname === link.href;
-                return (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className={`px-3 py-2 rounded-xl text-[11px] font-medium text-center transition-all ${
-                      active
-                        ? "bg-primary-emerald/15 text-primary-emerald font-semibold"
-                        : "text-custom-fg/70 hover:bg-custom-fg/5 hover:text-custom-fg"
-                    }`}
-                  >
-                    {link.name}
-                  </Link>
-                );
-              })}
-            </nav>
-          </div>
+          <nav className="mt-2 p-3 rounded-2xl glass border border-custom-border shadow-2xl pointer-events-auto flex flex-col gap-1">
+            {navLinks.map((link) => {
+              const active = pathname === link.href;
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                    active
+                      ? "bg-primary-emerald/15 text-primary-emerald font-semibold"
+                      : "text-custom-fg/75 hover:bg-custom-fg/5 hover:text-custom-fg"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
+          </nav>
         )}
       </div>
     </>
