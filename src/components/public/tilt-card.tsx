@@ -62,11 +62,15 @@ export default function TiltCard({
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (disabled || prefersReduced) return;
+      const currentTarget = e.currentTarget;
+      const clientX = e.clientX;
+      const clientY = e.clientY;
       cancelAnimationFrame(rafId.current);
       rafId.current = requestAnimationFrame(() => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        const x    = (e.clientX - rect.left) / rect.width;   // 0→1
-        const y    = (e.clientY - rect.top)  / rect.height;  // 0→1
+        if (!currentTarget) return;
+        const rect = currentTarget.getBoundingClientRect();
+        const x    = (clientX - rect.left) / rect.width;   // 0→1
+        const y    = (clientY - rect.top)  / rect.height;  // 0→1
         const rx   = -(y - 0.5) * intensity * 2;
         const ry   =  (x - 0.5) * intensity * 2;
         applyTilt(rx, ry, x * 100, y * 100, 0.55);
