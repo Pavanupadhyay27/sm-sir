@@ -72,14 +72,14 @@ export default function Header() {
       />
 
       {/* ── Desktop full-width navbar ─────────────────────────── */}
-      <div className="fixed top-3 left-4 right-4 z-50 hidden lg:flex justify-center pointer-events-none">
+      <div className="fixed top-3 left-2 right-2 z-50 hidden lg:flex justify-center pointer-events-none">
         <header
-          className={`navbar-3d rounded-2xl flex items-center pointer-events-auto w-full max-w-[1400px] transition-all duration-300 ${
-            scrolled ? "py-1 px-4" : "py-1.5 px-5"
+          className={`navbar-3d rounded-2xl flex items-center justify-center pointer-events-auto w-full transition-all duration-300 ${
+            scrolled ? "py-2 px-6" : "py-3 px-8"
           }`}
         >
-          {/* Nav links — takes all space */}
-          <nav ref={navRef} className="relative flex items-center flex-1 gap-0.5">
+          {/* Nav links + toggle all in one centred row */}
+          <nav ref={navRef} className="relative flex items-center gap-0.5">
             {/* Sliding active pill */}
             {pillStyle && (
               <span
@@ -104,16 +104,17 @@ export default function Header() {
                 </Link>
               );
             })}
-          </nav>
 
-          {/* Theme toggle — flush to the right edge, no extra margin */}
-          <button
-            onClick={toggleTheme}
-            className="p-1.5 rounded-xl hover:bg-custom-fg/8 text-custom-fg/60 hover:text-custom-fg transition-colors duration-200 flex-shrink-0"
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          </button>
+            {/* Thin divider then toggle — sits right next to Contact */}
+            <span className="w-px h-4 bg-custom-border/60 mx-1 flex-shrink-0" />
+            <button
+              onClick={toggleTheme}
+              className="p-1.5 rounded-xl hover:bg-custom-fg/8 text-custom-fg/60 hover:text-custom-fg transition-colors duration-200 flex-shrink-0"
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+          </nav>
         </header>
       </div>
 

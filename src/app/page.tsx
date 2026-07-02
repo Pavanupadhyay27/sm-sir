@@ -27,36 +27,19 @@ export default function Home() {
 
             {/* Portrait Card with 3D tilt */}
             <div className="lg:col-span-5 flex justify-center order-2 lg:order-1 anim-fade-in">
-              {/* group wrapper — hover triggers the glow ring */}
               <div className="relative w-80 sm:w-[380px] group">
                 <TiltCard
                   intensity={12}
                   wrapperClassName="w-full"
                   className="w-full rounded-2xl overflow-visible"
                 >
-                  {/* Spinning conic ring — hidden until hover */}
+                  {/* Image — glow border applied directly via box-shadow on hover */}
                   <div
-                    className="absolute -inset-[6px] rounded-[22px] z-0 pointer-events-none opacity-0 group-hover:opacity-80 transition-opacity duration-500"
-                    style={{
-                      background: "conic-gradient(from 0deg, #059669, #10b981, #ca8a04, #f59e0b, #059669)",
-                      animation: "spinSlow 4s linear infinite",
-                      filter: "blur(2px)",
-                    }}
-                  />
-                  {/* Dark gap layer — only visible when ring is */}
-                  <div className="absolute -inset-[3px] rounded-[19px] z-[1] pointer-events-none bg-[var(--background)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  {/* Ambient glow halo — fades in on hover */}
-                  <div
-                    className="absolute -inset-8 rounded-3xl z-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    style={{
-                      background: "radial-gradient(ellipse at center, rgba(5,150,105,0.28) 0%, rgba(202,138,4,0.12) 50%, transparent 75%)",
-                      animation: "pulseGlow 3s ease-in-out infinite",
-                      filter: "blur(14px)",
-                    }}
-                  />
-
-                  {/* Glass image frame */}
-                  <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl z-[2]" style={{ aspectRatio: "400/515" }}>
+                    className="relative w-full rounded-2xl overflow-hidden z-[2] transition-all duration-500
+                      shadow-[0_8px_32px_rgba(0,0,0,0.3)]
+                      group-hover:shadow-[0_0_0_3px_#059669,0_0_28px_rgba(5,150,105,0.6),0_0_60px_rgba(5,150,105,0.28),0_0_90px_rgba(202,138,4,0.14)]"
+                    style={{ aspectRatio: "400/515" }}
+                  >
                     <Image
                       src="https://faculty.kiit.ac.in/wp-content/uploads/2024/08/Economics_smrutiranjan-400x515.webp"
                       alt="Dr. Smruti Ranjan Das"
