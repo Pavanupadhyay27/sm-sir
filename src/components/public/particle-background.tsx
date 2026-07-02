@@ -68,16 +68,30 @@ export default function ParticleBackground() {
             Math.sin(nx * 16.0 - time * 2.4) * Math.sin(ny * 12.0 + time * 2.0) * 8  +
             Math.cos(nx * 28.0 + time * 3.2) * Math.cos(ny * 22.0 - time * 2.8) * 3;
 
-          // Mouse / touch ripple — in approximate screen space
+          // Mouse / touch ripple & tearing
           const approxSx = gx + width / 2;
           const approxSy = gy * cosP + gz * sinP + height * 0.5;
           const mdx   = mouse.x - approxSx;
           const mdy   = mouse.y - approxSy;
           const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
           let finalGz = gz;
+
+          let offsetX = 0;
+          let offsetY = 0;
+
           if (mdist < mouse.radius) {
             const t = 1 - mdist / mouse.radius;
             finalGz += t * t * t * 52 * Math.sin(time * 7 + mdist * 0.08);
+
+            // Tearing Recoil: vertices within 75px snap and push elastically away from cursor
+            const tearRadius = 75;
+            if (mdist < tearRadius) {
+              const tearStrength = 1 - mdist / tearRadius; // 0 at edge, 1 at center
+              const angle = Math.atan2(approxSy - mouse.y, approxSx - mouse.x);
+              // Push vertices outward to visually rip the mesh open
+              offsetX += Math.cos(angle) * tearStrength * 35;
+              offsetY += Math.sin(angle) * tearStrength * 25;
+            }
           }
 
           // Pitch rotation around X axis
@@ -87,8 +101,8 @@ export default function ParticleBackground() {
           // Perspective projection
           const camZ  = worldZ + fov;
           const scale = fov / Math.max(camZ, 1);
-          vx[idx] = gx * scale + width  / 2;
-          vy[idx] = worldY * scale + height * 0.56;
+          vx[idx] = (gx + offsetX) * scale + width  / 2;
+          vy[idx] = (worldY + offsetY) * scale + height * 0.56;
 
           // Smooth depth factor: 1=near, 0=far
           const rawN = 1 - (camZ - fov * 0.5) / (fov * 2.8);
@@ -104,15 +118,48 @@ export default function ParticleBackground() {
 
       // Draw line helper
       const drawLine = (i: number, j: number) => {
+        // Midpoint of line segment
+        const midX = (vx[i] + vx[j]) * 0.5;
+        const midY = (vy[i] + vy[j]) * 0.5;
+        const dx = mouse.x - midX;
+        const dy = mouse.y - midY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        // Snap/Tearing rules
+        const snapRadius = 40;     // completely cut
+        const tensionRadius = 70;  // warning glow/flicker
+
+        if (dist < snapRadius) {
+          return; // Snap! Connection is broken
+        }
+
         const nzAvg = (vn[i] + vn[j]) * 0.5;
-        // Cubic falloff — horizon disappears fast, foreground crisp
         const alpha = nzAvg * nzAvg * nzAvg * alphaScale;
         if (alpha < 0.003) return;
+
+        let strokeStyle = `rgba(${baseR},${baseG},${baseB},${alpha.toFixed(3)})`;
+
+        if (dist < tensionRadius) {
+          // Tension factor: 0 at tension boundary, 1 at snap boundary
+          const tension = (tensionRadius - dist) / (tensionRadius - snapRadius);
+          const flicker = Math.random() > 0.2 ? 1 : 0.3; // stress flicker
+
+          // Interpolate color from base green to hot gold (#d97706)
+          const targetR = 217;
+          const targetG = 119;
+          const targetB = 6;
+
+          const r = Math.round(baseR + (targetR - baseR) * tension);
+          const g = Math.round(baseG + (targetG - baseG) * tension);
+          const b = Math.round(baseB + (targetB - baseB) * tension);
+
+          strokeStyle = `rgba(${r},${g},${b},${(alpha * flicker * (1 - tension * 0.35)).toFixed(3)})`;
+        }
+
         ctx.beginPath();
         ctx.moveTo(vx[i], vy[i]);
         ctx.lineTo(vx[j], vy[j]);
-        ctx.strokeStyle = `rgba(${baseR},${baseG},${baseB},${alpha.toFixed(3)})`;
-        // Vary line width with depth: near=1px, far=0.4px
+        ctx.strokeStyle = strokeStyle;
         ctx.lineWidth = 0.4 + nzAvg * 0.6;
         ctx.stroke();
       };
