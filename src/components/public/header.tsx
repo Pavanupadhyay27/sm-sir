@@ -130,10 +130,10 @@ export default function Header() {
           </div>
         </header>
 
-        {/* Mobile dropdown */}
+        {/* Mobile dropdown — compact 2-col grid */}
         {isOpen && (
           <div className="lg:hidden w-full mt-2 pointer-events-auto">
-            <nav className="flex flex-col gap-1 p-4 rounded-2xl glass border border-custom-border shadow-2xl">
+            <nav className="grid grid-cols-2 gap-1 p-3 rounded-2xl glass border border-custom-border shadow-2xl">
               {navLinks.map((link) => {
                 const active = pathname === link.href;
                 return (
@@ -141,10 +141,10 @@ export default function Header() {
                     key={link.name}
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className={`px-4 py-2.5 rounded-xl text-xs font-medium transition-all ${
+                    className={`px-3 py-2 rounded-xl text-[11px] font-medium text-center transition-all ${
                       active
                         ? "bg-primary-emerald/15 text-primary-emerald font-semibold"
-                        : "text-custom-fg/75 hover:bg-custom-fg/5 hover:text-custom-fg"
+                        : "text-custom-fg/70 hover:bg-custom-fg/5 hover:text-custom-fg"
                     }`}
                   >
                     {link.name}
