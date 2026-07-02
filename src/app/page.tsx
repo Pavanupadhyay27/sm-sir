@@ -27,32 +27,31 @@ export default function Home() {
 
             {/* Portrait Card with 3D tilt */}
             <div className="lg:col-span-5 flex justify-center order-2 lg:order-1 anim-fade-in">
-              <div className="relative w-80 sm:w-[380px]">
+              {/* group wrapper — hover triggers the glow ring */}
+              <div className="relative w-80 sm:w-[380px] group">
                 <TiltCard
                   intensity={12}
                   wrapperClassName="w-full"
                   className="w-full rounded-2xl overflow-visible"
                 >
-                  {/* ── Glowing ring layers ── */}
-                  {/* Outer slow-spin conic gradient ring */}
+                  {/* Spinning conic ring — hidden until hover */}
                   <div
-                    className="absolute -inset-[6px] rounded-[22px] z-0 pointer-events-none"
+                    className="absolute -inset-[6px] rounded-[22px] z-0 pointer-events-none opacity-0 group-hover:opacity-80 transition-opacity duration-500"
                     style={{
                       background: "conic-gradient(from 0deg, #059669, #10b981, #ca8a04, #f59e0b, #059669)",
                       animation: "spinSlow 4s linear infinite",
-                      opacity: 0.75,
                       filter: "blur(2px)",
                     }}
                   />
-                  {/* Inner gap ring (dark fill to create border illusion) */}
-                  <div className="absolute -inset-[3px] rounded-[19px] z-[1] pointer-events-none bg-[var(--background)]" />
-                  {/* Soft ambient glow behind */}
+                  {/* Dark gap layer — only visible when ring is */}
+                  <div className="absolute -inset-[3px] rounded-[19px] z-[1] pointer-events-none bg-[var(--background)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  {/* Ambient glow halo — fades in on hover */}
                   <div
-                    className="absolute -inset-8 rounded-3xl z-0 pointer-events-none"
+                    className="absolute -inset-8 rounded-3xl z-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     style={{
-                      background: "radial-gradient(ellipse at center, rgba(5,150,105,0.30) 0%, rgba(202,138,4,0.14) 50%, transparent 75%)",
+                      background: "radial-gradient(ellipse at center, rgba(5,150,105,0.28) 0%, rgba(202,138,4,0.12) 50%, transparent 75%)",
                       animation: "pulseGlow 3s ease-in-out infinite",
-                      filter: "blur(12px)",
+                      filter: "blur(14px)",
                     }}
                   />
 

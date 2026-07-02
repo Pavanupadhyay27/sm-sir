@@ -72,10 +72,10 @@ export default function Header() {
       />
 
       {/* ── Desktop full-width navbar ─────────────────────────── */}
-      <div className="fixed top-3 left-6 right-6 z-50 hidden lg:flex justify-center pointer-events-none">
+      <div className="fixed top-3 left-4 right-4 z-50 hidden lg:flex justify-center pointer-events-none">
         <header
-          className={`navbar-3d rounded-2xl flex items-center gap-2 pointer-events-auto w-full max-w-[1100px] transition-all duration-300 ${
-            scrolled ? "py-1 px-5" : "py-1.5 px-6"
+          className={`navbar-3d rounded-2xl flex items-center pointer-events-auto w-full max-w-[1400px] transition-all duration-300 ${
+            scrolled ? "py-1 px-4" : "py-1.5 px-5"
           }`}
         >
           {/* Nav links — takes all space */}
@@ -106,10 +106,10 @@ export default function Header() {
             })}
           </nav>
 
-          {/* Theme toggle */}
+          {/* Theme toggle — flush to the right edge, no extra margin */}
           <button
             onClick={toggleTheme}
-            className="ml-2 p-2 rounded-xl hover:bg-custom-fg/8 text-custom-fg/60 hover:text-custom-fg transition-all duration-200 hover:scale-110 flex-shrink-0"
+            className="p-1.5 rounded-xl hover:bg-custom-fg/8 text-custom-fg/60 hover:text-custom-fg transition-colors duration-200 flex-shrink-0"
             aria-label="Toggle theme"
           >
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
