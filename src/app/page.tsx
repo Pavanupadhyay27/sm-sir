@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowRight, BookOpen, Cpu, Download, ExternalLink, FlaskConical, Quote, Shield } from "lucide-react";
 import { professorData } from "@/data/professor-data";
 import StatsCounter from "@/components/home/stats-counter";
+import TiltCard from "@/components/public/tilt-card";
 
 export default function Home() {
   const p = professorData;
@@ -14,15 +15,25 @@ export default function Home() {
 
       {/* ── Hero Section ─────────────────────────────────────────── */}
       <section className="relative min-h-[92vh] flex items-center pt-20 pb-16 overflow-hidden">
+
+        {/* Hero ambient backdrop */}
+        <div className="absolute inset-0 pointer-events-none select-none">
+          <div className="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[900px] h-[600px] rounded-full bg-primary-emerald/5 blur-[120px]" />
+          <div className="absolute bottom-0 right-0 w-[500px] h-[400px] rounded-full bg-accent-gold/4 blur-[100px]" />
+        </div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
 
-            {/* Portrait Card */}
+            {/* Portrait Card with 3D tilt */}
             <div className="lg:col-span-5 flex justify-center order-2 lg:order-1 anim-fade-in">
-              <div className="relative w-80 h-[412px] sm:w-[380px] sm:h-[490px] group">
-
+              <TiltCard
+                intensity={12}
+                wrapperClassName="relative w-80 h-[412px] sm:w-[380px] sm:h-[490px]"
+                className="w-full h-full rounded-2xl"
+              >
                 {/* Ambient glow blob */}
-                <div className="absolute -inset-8 opacity-70 dark:opacity-40 blur-3xl pointer-events-none select-none z-0 group-hover:scale-105 transition-transform duration-700">
+                <div className="absolute -inset-8 opacity-60 dark:opacity-35 blur-3xl pointer-events-none select-none z-0 transition-transform duration-700">
                   <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
                     <path fill="url(#hero-grad)" d="M41.7,-67.2C54.4,-60.7,65.3,-49.6,73.1,-36.1C80.8,-22.6,85.5,-6.6,83.9,8.7C82.3,24.1,74.5,38.8,64.2,50.7C53.9,62.6,41.2,71.7,26.8,76.9C12.4,82.1,-3.7,83.4,-19,79.8C-34.3,76.2,-48.9,67.6,-59.6,55.5C-70.3,43.3,-77.2,27.6,-80.1,10.9C-83,-5.9,-82,-23.7,-74.6,-38.1C-67.2,-52.4,-53.4,-63.3,-38.7,-68.8C-24,-74.2,-8.4,-74.3,4.9,-71.4C18.2,-68.4,31.7,-72.4,41.7,-67.2Z" transform="translate(100 100)" />
                     <defs>
@@ -36,7 +47,7 @@ export default function Home() {
                 </div>
 
                 {/* Glass image frame */}
-                <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl glass border-0 group-hover:scale-[1.015] transition-transform duration-500 z-10">
+                <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl glass border-0 z-10 shimmer-border">
                   <Image
                     src="https://faculty.kiit.ac.in/wp-content/uploads/2024/08/Economics_smrutiranjan-400x515.webp"
                     alt="Dr. Smruti Ranjan Das"
@@ -44,23 +55,25 @@ export default function Home() {
                     priority
                     className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   />
+                  {/* Inner top sheen */}
+                  <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/20 to-transparent z-10 pointer-events-none" />
                   {/* Status badge */}
-                  <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 z-20">
+                  <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-black/55 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 z-20">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                     <span className="text-[9px] font-mono text-white uppercase tracking-widest">Active Research</span>
                   </div>
                 </div>
 
                 {/* Floating metric chips */}
-                <div className="absolute -right-6 top-16 z-20 glass px-3 py-2 rounded-xl shadow-lg border border-custom-border/60 anim-fade-up-d2 hidden sm:block">
+                <div className="absolute -right-6 top-16 z-20 glass px-3 py-2 rounded-xl shadow-xl border border-custom-border/60 shimmer-border metric-chip hidden sm:block">
                   <span className="block text-[10px] font-mono text-custom-muted uppercase tracking-wider">H-Index</span>
                   <span className="block text-xl font-bold font-mono text-primary-emerald leading-none">4</span>
                 </div>
-                <div className="absolute -left-6 bottom-20 z-20 glass px-3 py-2 rounded-xl shadow-lg border border-custom-border/60 anim-fade-up-d3 hidden sm:block">
+                <div className="absolute -left-6 bottom-20 z-20 glass px-3 py-2 rounded-xl shadow-xl border border-custom-border/60 shimmer-border metric-chip-alt hidden sm:block">
                   <span className="block text-[10px] font-mono text-custom-muted uppercase tracking-wider">Citations</span>
                   <span className="block text-xl font-bold font-mono text-accent-gold leading-none">63+</span>
                 </div>
-              </div>
+              </TiltCard>
             </div>
 
             {/* Hero Text */}
@@ -78,7 +91,7 @@ export default function Home() {
 
               <h1 className="font-heading text-4xl sm:text-5xl lg:text-[3.6rem] font-extrabold tracking-tight text-custom-fg leading-[1.08] anim-fade-up-d1">
                 Bridging Academic<br />
-                <span className="bg-gradient-to-r from-primary-emerald via-emerald-500 to-accent-gold bg-clip-text text-transparent">
+                <span className="gradient-text">
                   Excellence &amp; Industry
                 </span>
               </h1>
@@ -92,14 +105,14 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-1 anim-fade-up-d3">
                 <Link
                   href="/research-lab"
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-full text-sm font-semibold bg-gradient-to-r from-primary-emerald to-emerald-500 text-white flex items-center justify-center gap-2 shadow-lg shadow-primary-emerald/20 hover:shadow-primary-emerald/35 hover:-translate-y-0.5 transition-all duration-300"
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-full text-sm font-semibold bg-gradient-to-r from-primary-emerald to-emerald-500 text-white flex items-center justify-center gap-2 shadow-lg shadow-primary-emerald/25 hover:shadow-primary-emerald/40 hover:-translate-y-0.5 hover:scale-105 transition-all duration-300"
                 >
                   Explore Research Lab
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <a
                   href={p.personal.cvLink}
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-full text-sm font-semibold glass border border-custom-border text-custom-fg hover:bg-custom-fg/5 flex items-center justify-center gap-2 hover:-translate-y-0.5 transition-all duration-300"
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-full text-sm font-semibold glass border border-custom-border text-custom-fg hover:bg-custom-fg/5 flex items-center justify-center gap-2 hover:-translate-y-0.5 hover:scale-105 transition-all duration-300 shimmer-border"
                 >
                   <Download className="w-4 h-4 text-accent-gold" />
                   Download Curriculum Vitae
@@ -132,15 +145,18 @@ export default function Home() {
 
       {/* ── Stats Bar ────────────────────────────────────────────── */}
       <section className="py-10 border-y border-custom-border relative z-10 bg-custom-card/20 backdrop-blur-sm">
+        {/* Gradient divider top */}
+        <div className="absolute top-0 inset-x-0 gradient-divider" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 divide-x divide-custom-border">
             {p.stats.map((s, idx) => (
-              <div key={idx} className="px-6 first:pl-0 last:pr-0 flex flex-col items-center text-center py-2">
+              <div key={idx} className="px-6 first:pl-0 last:pr-0 flex flex-col items-center text-center py-2 group">
                 <StatsCounter value={s.value} label={s.label} />
               </div>
             ))}
           </div>
         </div>
+        <div className="absolute bottom-0 inset-x-0 gradient-divider" />
       </section>
 
       {/* ── Research Domains ─────────────────────────────────────── */}
@@ -161,14 +177,18 @@ export default function Home() {
               const icons = [FlaskConical, BookOpen, Cpu, Shield];
               const Icon = icons[idx % icons.length];
               return (
-                <div
+                <TiltCard
                   key={d.id}
-                  className="glass p-8 rounded-3xl glow-emerald-hover relative group overflow-hidden"
+                  intensity={8}
+                  className="glass p-8 rounded-3xl glow-emerald-hover relative overflow-hidden shimmer-border"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary-emerald/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary-emerald/5 via-transparent to-accent-gold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-3xl" />
+
+                  {/* Top accent line */}
+                  <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary-emerald/40 to-transparent" />
 
                   <div className="flex justify-between items-start mb-6">
-                    <div className="w-11 h-11 rounded-2xl bg-primary-emerald/10 border border-primary-emerald/20 flex items-center justify-center text-primary-emerald flex-shrink-0">
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-emerald/15 to-primary-emerald/5 border border-primary-emerald/20 flex items-center justify-center text-primary-emerald flex-shrink-0 shadow-inner">
                       <Icon className="w-5 h-5" />
                     </div>
                     <div className="text-right">
@@ -195,7 +215,7 @@ export default function Home() {
                       </span>
                     ))}
                   </div>
-                </div>
+                </TiltCard>
               );
             })}
           </div>
@@ -238,10 +258,14 @@ export default function Home() {
 
             <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-5">
               {p.patents.map((pat) => (
-                <div
+                <TiltCard
                   key={pat.number}
-                  className="glass p-6 rounded-2xl glow-gold-hover flex flex-col justify-between gap-4"
+                  intensity={8}
+                  className="glass p-6 rounded-2xl glow-gold-hover flex flex-col justify-between gap-4 shimmer-border"
                 >
+                  {/* Top accent */}
+                  <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-accent-gold/40 to-transparent" />
+
                   <div>
                     <div className="flex items-center justify-between mb-4">
                       <span className="text-[10px] font-mono text-accent-gold font-bold bg-accent-gold/10 px-2.5 py-1 rounded-full border border-accent-gold/20">
@@ -260,7 +284,7 @@ export default function Home() {
                     <span className="text-[9px] font-mono text-custom-muted uppercase tracking-wider">Patent No.</span>
                     <span className="text-[10px] font-mono font-bold text-custom-fg">{pat.number}</span>
                   </div>
-                </div>
+                </TiltCard>
               ))}
             </div>
 
@@ -270,13 +294,18 @@ export default function Home() {
 
       {/* ── Leadership Banner ─────────────────────────────────────── */}
       <section className="py-24 border-t border-custom-border relative z-10 overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary-emerald/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent-gold/4 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-[500px] h-[400px] bg-primary-emerald/5 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-accent-gold/4 rounded-full blur-[80px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="glass rounded-3xl p-8 sm:p-12 border border-custom-border/80 relative overflow-hidden">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <TiltCard
+            intensity={5}
+            className="glass rounded-3xl p-8 sm:p-12 border border-custom-border/80 relative overflow-hidden shimmer-border"
+          >
+            {/* Accent top */}
+            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary-emerald/40 to-transparent" />
 
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
               <div className="lg:col-span-8 space-y-5">
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary-emerald font-mono">Administration &amp; Leadership</p>
                 <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-custom-fg tracking-tight">
@@ -304,19 +333,19 @@ export default function Home() {
               <div className="lg:col-span-4 flex flex-col gap-3">
                 <Link
                   href="/leadership"
-                  className="w-full text-center px-5 py-3.5 rounded-full text-sm font-semibold bg-custom-fg text-custom-bg hover:bg-custom-fg/90 transition-all shadow-md"
+                  className="w-full text-center px-5 py-3.5 rounded-full text-sm font-semibold bg-custom-fg text-custom-bg hover:bg-custom-fg/90 transition-all shadow-md hover:-translate-y-0.5 hover:scale-105 duration-300"
                 >
                   View Administration Roles
                 </Link>
                 <Link
                   href="/awards"
-                  className="w-full text-center px-5 py-3.5 rounded-full text-sm font-semibold glass border border-custom-border text-custom-fg hover:bg-custom-fg/5 transition-all"
+                  className="w-full text-center px-5 py-3.5 rounded-full text-sm font-semibold glass border border-custom-border text-custom-fg hover:bg-custom-fg/5 transition-all hover:-translate-y-0.5 hover:scale-105 duration-300 shimmer-border"
                 >
                   Browse Honor Awards
                 </Link>
               </div>
             </div>
-          </div>
+          </TiltCard>
         </div>
       </section>
 
@@ -335,18 +364,22 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {p.testimonials.map((t) => (
-              <div
+              <TiltCard
                 key={t.id}
-                className="glass p-8 rounded-3xl flex flex-col justify-between glow-emerald-hover"
+                intensity={7}
+                className="glass p-8 rounded-3xl glow-emerald-hover shimmer-border"
               >
+                {/* Accent top */}
+                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary-emerald/30 to-transparent" />
+
                 <div>
-                  <Quote className="w-8 h-8 text-primary-emerald/25 mb-4" />
+                  <Quote className="w-8 h-8 text-primary-emerald/30 mb-4" />
                   <p className="text-sm text-custom-fg/80 leading-relaxed italic">
                     {t.text}
                   </p>
                 </div>
                 <div className="flex items-center gap-3 pt-6 mt-6 border-t border-custom-border/50">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary-emerald/20 to-accent-gold/20 flex items-center justify-center text-xs font-bold font-mono text-primary-emerald border border-custom-border flex-shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary-emerald/25 to-accent-gold/25 flex items-center justify-center text-xs font-bold font-mono text-primary-emerald border border-custom-border flex-shrink-0">
                     {t.avatar}
                   </div>
                   <div>
@@ -354,7 +387,7 @@ export default function Home() {
                     <p className="text-[10px] text-custom-muted mt-1">{t.role}, {t.organization}</p>
                   </div>
                 </div>
-              </div>
+              </TiltCard>
             ))}
           </div>
         </div>
