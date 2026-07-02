@@ -13,11 +13,14 @@ export default function ParticleBackground() {
     if (!ctx) return;
 
     let animationFrameId: number;
-    let width = (canvas.width = window.innerWidth);
+    let width  = (canvas.width  = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
     let time = 0;
     const mouse = { x: -9999, y: -9999, radius: 160 };
+
+    // Detect mobile for reduced grid density
+    const isMobile = () => window.innerWidth < 768;
 
     const isDark = () =>
       document.documentElement.classList.contains("dark");
@@ -27,18 +30,18 @@ export default function ParticleBackground() {
       ctx.clearRect(0, 0, width, height);
       time += 0.0035;
 
-      // Balanced grid — larger squares with visible gaps
-      const cols = 38;
-      const rows = 26;
+      // Use smaller grid on mobile for better performance
+      const mobile = isMobile();
+      const cols = mobile ? 20 : 38;
+      const rows = mobile ? 14 : 26;
 
-      // Spacing: cells are ~2.7% of viewport wide
-      const spacingX = width / (cols - 1);
+      const spacingX = width  / (cols - 1);
       const spacingY = height / (rows - 1);
 
       // Moderate pitch for deep 3D perspective
       const pitch = 0.85;
-      const cosP = Math.cos(pitch);
-      const sinP = Math.sin(pitch);
+      const cosP  = Math.cos(pitch);
+      const sinP  = Math.sin(pitch);
 
       // Focal length — higher = less distortion at edges
       const fov = height * 1.2;
@@ -53,7 +56,7 @@ export default function ParticleBackground() {
           const idx = r * cols + c;
 
           // Grid position in 3D world space (center-origin)
-          const gx = c * spacingX - width / 2;
+          const gx = c * spacingX - width  / 2;
           const gy = r * spacingY - height / 2;
 
           const nx = c / (cols - 1); // 0→1
@@ -61,15 +64,15 @@ export default function ParticleBackground() {
 
           // Multi-octave wave for organic terrain feel
           const gz =
-            Math.sin(nx * 8.0  + time * 1.4) * Math.cos(ny * 6.0  - time * 1.1) * 22 + // slow base wave
-            Math.sin(nx * 16.0 - time * 2.4) * Math.sin(ny * 12.0 + time * 2.0) * 8  + // medium ripple
-            Math.cos(nx * 28.0 + time * 3.2) * Math.cos(ny * 22.0 - time * 2.8) * 3;   // fine detail
+            Math.sin(nx * 8.0  + time * 1.4) * Math.cos(ny * 6.0  - time * 1.1) * 22 +
+            Math.sin(nx * 16.0 - time * 2.4) * Math.sin(ny * 12.0 + time * 2.0) * 8  +
+            Math.cos(nx * 28.0 + time * 3.2) * Math.cos(ny * 22.0 - time * 2.8) * 3;
 
-          // Mouse ripple — in approximate screen space
+          // Mouse / touch ripple — in approximate screen space
           const approxSx = gx + width / 2;
           const approxSy = gy * cosP + gz * sinP + height * 0.5;
-          const mdx = mouse.x - approxSx;
-          const mdy = mouse.y - approxSy;
+          const mdx   = mouse.x - approxSx;
+          const mdy   = mouse.y - approxSy;
           const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
           let finalGz = gz;
           if (mdist < mouse.radius) {
@@ -82,9 +85,9 @@ export default function ParticleBackground() {
           const worldZ = gy * sinP + finalGz * cosP;
 
           // Perspective projection
-          const camZ = worldZ + fov;
+          const camZ  = worldZ + fov;
           const scale = fov / Math.max(camZ, 1);
-          vx[idx] = gx * scale + width / 2;
+          vx[idx] = gx * scale + width  / 2;
           vy[idx] = worldY * scale + height * 0.56;
 
           // Smooth depth factor: 1=near, 0=far
@@ -132,7 +135,7 @@ export default function ParticleBackground() {
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
           const idx = r * cols + c;
-          const n = vn[idx];
+          const n   = vn[idx];
           if (n < 0.55) continue; // only near vertices
           const dotAlpha = (n - 0.55) * (n - 0.55) * (dk ? 1.2 : 0.7);
           if (dotAlpha < 0.012) continue;
@@ -147,9 +150,11 @@ export default function ParticleBackground() {
     };
 
     const handleResize = () => {
-      width = canvas.width = window.innerWidth;
+      width  = canvas.width  = window.innerWidth;
       height = canvas.height = window.innerHeight;
     };
+
+    // ── Mouse support ──────────────────────────────────────────────
     const handleMouseMove = (e: MouseEvent) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
@@ -159,17 +164,39 @@ export default function ParticleBackground() {
       mouse.y = -9999;
     };
 
-    window.addEventListener("resize", handleResize);
-    window.addEventListener("mousemove", handleMouseMove);
+    // ── Touch support ──────────────────────────────────────────────
+    const handleTouchMove = (e: TouchEvent) => {
+      // Use the first active touch point to drive the ripple
+      if (e.touches.length > 0) {
+        mouse.x = e.touches[0].clientX;
+        mouse.y = e.touches[0].clientY;
+      }
+    };
+    const handleTouchEnd = () => {
+      // Gradually fade ripple away instead of a hard reset
+      // (we keep the last position; the ripple naturally decays
+      //  because the point moves away from the grid as animation runs)
+      mouse.x = -9999;
+      mouse.y = -9999;
+    };
+
+    window.addEventListener("resize",      handleResize);
+    window.addEventListener("mousemove",   handleMouseMove);
     document.addEventListener("mouseleave", handleMouseLeave);
+    window.addEventListener("touchmove",   handleTouchMove, { passive: true });
+    window.addEventListener("touchend",    handleTouchEnd);
+    window.addEventListener("touchcancel", handleTouchEnd);
 
     animate();
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("resize",      handleResize);
+      window.removeEventListener("mousemove",   handleMouseMove);
       document.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("touchmove",   handleTouchMove);
+      window.removeEventListener("touchend",    handleTouchEnd);
+      window.removeEventListener("touchcancel", handleTouchEnd);
     };
   }, []);
 

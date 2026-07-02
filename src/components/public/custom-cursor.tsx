@@ -18,7 +18,26 @@ export default function CustomCursor() {
   const [clicking, setClicking] = useState(false);
   const [hidden,   setHidden]   = useState(false);
 
+  // Detect touch/mobile — no custom cursor needed there
+  const [isTouch, setIsTouch] = useState(false);
+
   useEffect(() => {
+    // matchMedia for fine pointer (mouse). Coarse = touch/stylus.
+    const mq = window.matchMedia("(pointer: fine)");
+    setIsTouch(!mq.matches);
+
+    const onChange = (e: MediaQueryListEvent) => setIsTouch(!e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (isTouch) {
+      // Restore default cursor on touch devices
+      document.documentElement.style.cursor = "";
+      return;
+    }
+
     // Hide default cursor globally
     document.documentElement.style.cursor = "none";
 
@@ -94,7 +113,10 @@ export default function CustomCursor() {
       window.removeEventListener("mousedown", onMouseDown);
       window.removeEventListener("mouseup",   onMouseUp);
     };
-  }, []);
+  }, [isTouch]);
+
+  // On touch screens render nothing — native cursor/finger is used
+  if (isTouch) return null;
 
   const baseTransition = "width 0.25s ease, height 0.25s ease, opacity 0.25s ease, background-color 0.25s ease, border-color 0.25s ease";
 
