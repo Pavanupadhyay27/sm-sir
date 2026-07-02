@@ -72,10 +72,10 @@ export default function Header() {
       />
 
       {/* ── Desktop full-width navbar ─────────────────────────── */}
-      <div className="fixed top-3 left-2 right-2 z-50 hidden lg:flex justify-center pointer-events-none">
+      <div className="fixed top-3 left-4 right-4 z-50 hidden lg:flex justify-center pointer-events-none">
         <header
-          className={`navbar-3d rounded-2xl flex items-center justify-center pointer-events-auto w-full transition-all duration-300 ${
-            scrolled ? "py-2 px-6" : "py-3 px-8"
+          className={`navbar-3d rounded-2xl flex items-center pointer-events-auto transition-all duration-300 ${
+            scrolled ? "py-1.5 px-4" : "py-2 px-5"
           }`}
         >
           {/* Nav links + toggle all in one centred row */}
